@@ -34,17 +34,21 @@ exports.getRestaurants = function(latitude,longitude,callback) {
     });
 }
 
-exports.getEvents = function(callback) {
-    console.log({'app_key':config.eventbriteApi.apiKey, 'user_key':config.eventbriteApi.userKey});
-    var eventbriteClient = Eventbrite({'app_key':config.eventbriteApi.apiKey, 'user_key':config.eventbriteApi.userKey});
-
-    var params = {'city': "San Francisco", 'region': "CA"};
-
-    eventbriteClient.event_search( params, function(err, data){
-        console.log(err);
-        console.log(data);
-        callback(data);
-    });
+exports.getEvents = function(latitude,longitude,date,callback) {
+    if(!date)
+    var date="Today";
+    var callbackCity = function(city) {
+        if(callback) {
+            var eventbriteClient = Eventbrite({'app_key':config.eventbriteApi.apiKey, 'user_key':config.eventbriteApi.userKey});
+            var params = {'city': city, 'country': "FR", date: date};
+            eventbriteClient.event_search( params, function(err, data){
+                console.log(err);
+                console.log(data);
+                callback(data);
+            });
+        };
+    }
+    getCity(latitude,longitude,callbackCity);
 }
 
 var getCity = function(latitude,longitude,callback) {
@@ -71,7 +75,6 @@ exports.getWeather = function(latitude,longitude,callback) {
         };
         var parser = new xml2js.Parser();
         makeRequest(requestOptions, function(data) {
-        console.log("felix",data);
         if(callback) {
             parser.parseString(data, function (err, result) { callback(result);}) }
         });
