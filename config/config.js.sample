@@ -7,8 +7,16 @@ var meetupApi = {
 }
 var googleMapsApi = {
     apiKey : "",
-    }
+}
 
+var yelpApi = {
+    consumer_key: "",.
+    consumer_secret: "",
+    token: "",
+    token_secret: "",
+}
+
+exports.yelpApi = yelpApi;
 exports.googleMapsApi = googleMapsApi;
 exports.eventbriteApi = eventbriteApi;
 exports.meetupApi = meetupApi;

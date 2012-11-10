@@ -12,8 +12,9 @@ exports.events = function(req, res){
     var callback = function(events) {
         res.send(events);
     }
-    if((req.query.longitude)&&(req.query.latitude))
-    api.getEvents(req.query.longitude,req.query.latitude,req.query.date,callback);
+    if(!((req.query.longitude)&&(req.query.latitude)))
+        return res.end();
+    api.getEvents(req.query.latitude,req.query.longitude,req.query.date,callback);
 };
 
 exports.poi = function(req, res){
@@ -24,15 +25,25 @@ exports.weather = function(req, res){
     var callback = function(weather) {
         res.send(weather);
     }
-    if((req.query.longitude)&&(req.query.latitude))
-    api.getWeather(req.query.longitude,req.query.latitude,callback);
+    if(!((req.query.longitude)&&(req.query.latitude)))
+        return res.end();
+    api.getWeather(req.query.latitude,req.query.longitude,callback);
 };
 
 exports.googleplaces = function(req, res){
-    var callback = function(events) {
-        res.send(events);
+    var callback = function(googleplaces) {
+        res.send(googleplaces);
     }
     if(!((req.query.longitude)&&(req.query.latitude)))
         return res.end();
-    api.getGooglePlaces(req.query.longitude,req.query.latitude,req.query.types,callback);
+    api.getGooglePlaces(req.query.latitude,req.query.longitude,req.query.types,callback);
+};
+
+exports.yelp = function(req, res){
+    var callback = function(yelp) {
+        res.send(yelp);
+    }
+    if(!((req.query.longitude)&&(req.query.latitude)))
+        return res.end();
+    api.getYelp(req.query.latitude,req.query.longitude,req.query.types,callback);
 };
