@@ -27,3 +27,12 @@ exports.weather = function(req, res){
     if((req.query.longitude)&&(req.query.latitude))
     api.getWeather(req.query.longitude,req.query.latitude,callback);
 };
+
+exports.googleplaces = function(req, res){
+    var callback = function(events) {
+        res.send(events);
+    }
+    if(!((req.query.longitude)&&(req.query.latitude)))
+        return res.end();
+    api.getGooglePlaces(req.query.longitude,req.query.latitude,req.query.types,callback);
+};

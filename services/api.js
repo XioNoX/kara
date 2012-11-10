@@ -1,16 +1,22 @@
 var dataNormalizer = require('./dataNormalizer');
 var http       = require('http');
+var https       = require('https');
 var Eventbrite = require('eventbrite');
 var config     = require('../config/config');
 var xml2js = require('xml2js');
+var GooglePlaces = require('google-places');
 
 var dataProvenceApi = {host: 'dataprovence.cloudapp.net', port: '8080' };
 var nominatimOSMApi = {host: 'nominatim.openstreetmap.org', port: '80' };
 var meteorologicApi = {host: 'api.meteorologic.net', port: '80' };
+var googleMapsApi = {host: 'maps.googleapis.com', port: '443' };
 
 var makeRequest = function(requestParams, callback) {
     var datas = "";
-    var request = http.request(requestParams, function(response) {
+    var httptype=http;
+    if (requestParams.port=='443')
+        httptype = https;
+    var request = httptype.request(requestParams, function(response) {
         response.setEncoding('utf8');
         response.on('data', function (chunk) {
             datas += chunk;
@@ -30,6 +36,24 @@ exports.getRestaurants = function(callback) {
     };
 
     makeRequest(requestOptions, function(data) {
+        if(callback) {
+            data = dataNormalizer.normalize(JSON.parse(data).d);
+            callback(data);
+        }
+    });
+}
+
+exports.getGooglePlaces = function(latitude,longitude,types,callback){
+// https://developers.google.com/places/documentation/search
+// Changer le radius si recherche a proximitée
+    var requestOptions = {
+        host: googleMapsApi.host,
+        port: googleMapsApi.port,
+        path: '/maps/api/place/nearbysearch/json?key='+config.googleMapsApi.apiKey+'&location='+ latitude + ','+ longitude +'&sensor=false&radius=20000&types='+ types,
+    };
+    console.log(requestOptions);
+    makeRequest(requestOptions, function(data) {
+        console.log(data);
         if(callback) {
             data = dataNormalizer.normalize(JSON.parse(data).d);
             callback(data);
