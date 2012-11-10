@@ -71,7 +71,7 @@ exports.getGooglePlaces = function(latitude,longitude,types,callback){
     makeRequest(requestOptions, function(data) {
         console.log(data);
         if(callback) {
-            data = dataNormalizer.normalize(JSON.parse(data).d);
+            data = dataNormalizer.normalize_google(JSON.parse(data));
             callback(data);
         }
     });
