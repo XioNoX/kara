@@ -1,4 +1,4 @@
-//var dataNormalizer = require('./dataNomalizer'),
+var dataNormalizer = require('./dataNormalizer');
 var http       = require('http');
 var Eventbrite = require('eventbrite');
 var config     = require('../config/config');
@@ -22,7 +22,7 @@ var makeRequest = function(requestParams, callback) {
     request.end();
 }
 
-exports.getRestaurants = function(latitude,longitude,callback) {
+exports.getRestaurants = function(callback) {
     var requestOptions = {
         host: dataProvenceApi.host,
         port: dataProvenceApi.port,
@@ -30,19 +30,28 @@ exports.getRestaurants = function(latitude,longitude,callback) {
     };
 
     makeRequest(requestOptions, function(data) {
-        if(callback) { callback(data); }
+        if(callback) {
+            data = dataNormalizer.normalize(JSON.parse(data).d);
+            callback(data);
+        }
     });
 }
 
-exports.getEvents = function(callback) {
-    var eventbriteClient = Eventbrite({'app_key':config.eventbriteApi.apiKey, 'user_key':config.eventbriteApi.userKey});
-
-    var params = {'city': "San Francisco", 'region': "CA"};
-
-    eventbriteClient.event_search( params, function(err, data){
-        console.log(err);
-        callback(data);
-    });
+exports.getEvents = function(latitude,longitude,date,callback) {
+    if(!date)
+    var date="Today";
+    var callbackCity = function(city) {
+        if(callback) {
+            var eventbriteClient = Eventbrite({'app_key':config.eventbriteApi.apiKey, 'user_key':config.eventbriteApi.userKey});
+            var params = {'city': city, 'country': "FR", date: date};
+            eventbriteClient.event_search( params, function(err, data){
+                console.log(err);
+                console.log(data);
+                callback(data);
+            });
+        };
+    }
+    getCity(latitude,longitude,callbackCity);
 }
 
 var getCity = function(latitude,longitude,callback) {
