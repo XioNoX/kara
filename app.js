@@ -16,6 +16,7 @@ require('./config/configure')(app);
 app.get('/', routes.index);
 app.get('/poi/:id', poisController.poi);
 app.get('/suggest', poisController.suggest);
+app.get('/weather', poisController.weather);
 
 app.listen(3000, function(){
   console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
