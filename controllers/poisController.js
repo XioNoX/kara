@@ -19,7 +19,7 @@ exports.events = function(req, res){
 };
 
 exports.poi = function(req, res){
-    res.send('epic todo');
+    res.send(getPoi);
 };
 
 exports.weather = function(req, res){
