@@ -1,16 +1,10 @@
 //var dataNormalizer = require('./dataNomalizer'),
-var    http = require('http');
+var http = require('http');
+var config = require('../config/config');
 
-exports.getRestaurants = function(callback) {
-    var requestOptions = {
-        host: 'dataprovence.cloudapp.net',
-        port: 8080,
-        method: 'GET',
-        path: '/v1/dataprovencetourisme/Restaurants/?format=json',
-    };
-
+var makeRequest = function(requestParams, callback) {
     var datas = "";
-    var request = http.request(requestOptions, function(response) {
+    var request = http.request(requestParams, function(response) {
         response.setEncoding('utf8');
         response.on('data', function (chunk) {
             datas += chunk;
@@ -20,5 +14,21 @@ exports.getRestaurants = function(callback) {
         });
     });
     request.end();
+}
+
+exports.getRestaurants = function(callback) {
+    var requestOptions = {
+        host: config.dataProvenceApi.host,
+        port: config.dataProvenceApi.port,
+        method: config.dataProvenceApi.method,
+        path: '/v1/dataprovencetourisme/Restaurants/?format=json',
+    };
+
+    makeRequest(requestOptions, function(data) {
+        if(callback) { callback(data); }
+    });
+}
+
+exports.getEvents = function(callback) {
 
 }
