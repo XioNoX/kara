@@ -10,3 +10,10 @@ exports.suggest = function(req, res){
 exports.poi = function(req, res){
     res.send('epic todo');
 };
+
+exports.weather = function(req, res){ 
+    var callback = function(weather) {
+        res.send(weather);
+    }
+    api.getWeather('43.4834507','5.381985',callback);
+};
