@@ -1,0 +1,13 @@
+var dpApi = {
+    host: 'dataprovence.cloudapp.net',
+    port: 8080,
+    method: 'GET'
+}
+
+var eventbriteApi = {
+    apiKey : "",
+    userKey : "",
+}
+
+exports.dataProvenceApi = dpApi;
+exports.eventbriteApi = dpApi;
