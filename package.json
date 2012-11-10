@@ -8,5 +8,6 @@
     , "eventbrite": ""
     , "xml2js": ""
     , "yelp": ""
+    , "sqlite3": ""
   }
 }

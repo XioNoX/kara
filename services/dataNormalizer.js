@@ -6,7 +6,7 @@ exports.normalize_open_data = function(obj) {
         typedecuisine: 'type',
         sous_type: 'type',
         numro: 'number',
-	numero: 'number',
+    numero: 'number',
         typedevoie: 'typeOfRoad',
         type_de_voie: 'typeOfRoad',
         voie: 'road',
@@ -36,30 +36,29 @@ exports.normalize_open_data = function(obj) {
 
 exports.normalize_google = function(obj) {
     var dico = {
-	name: 'name',
-	vicinity: 'address',
-	icon : 'icon',
-	rating : 'rating',
-	// lat, lng and types "à la mano"
+    name: 'name',
+    vicinity: 'address',
+    icon : 'icon',
+    rating : 'rating',
+    // lat, lng and types "à la mano"
     };
 
     var normTab = [];
     for(var rest in obj.results) {
         var normObj = {};
-	console.log(obj.results[rest]);
-	for(var attr in obj.results[rest]){
+    for(var attr in obj.results[rest]){
             if(dico[attr])
-		normObj[dico[attr]] = obj.results[rest][attr];
-	    if(attr=="geometry"){
-		normObj.latitude=obj.results[rest].geometry.location.lat;
-		normObj.longitude=obj.results[rest].geometry.location.lng;
-	    }
-	    if(attr=="types"){
-		normObj.type="";
-		for(var i=0; i<obj.results[rest].types.length; i++)
-		    normObj.type+=obj.results[rest].types[i]+" ";
-	    }
-	}
+        normObj[dico[attr]] = obj.results[rest][attr];
+        if(attr=="geometry"){
+        normObj.latitude=obj.results[rest].geometry.location.lat;
+        normObj.longitude=obj.results[rest].geometry.location.lng;
+        }
+        if(attr=="types"){
+        normObj.type="";
+        for(var i=0; i<obj.results[rest].types.length; i++)
+            normObj.type+=obj.results[rest].types[i]+" ";
+        }
+    }
         normTab.push(normObj);
     }
     return normTab;

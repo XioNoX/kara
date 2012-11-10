@@ -62,15 +62,12 @@ exports.getGooglePlaces = function(latitude,longitude,types,callback){
 // https://developers.google.com/places/documentation/search
 // Changer le radius si recherche a proximitée
     var requestOptions = {
-        host: googleMapsApi.host,
-        port: googleMapsApi.port,
-        path: '/maps/api/place/nearbysearch/json?key='+config.googleMapsApi.apiKey+'&location='+ latitude + ','+ longitude +'&sensor=false&radius=20000&types='+ types,
+        host: googleMapsApi.host, port: googleMapsApi.port, path: '/maps/api/place/nearbysearch/json?key='+config.googleMapsApi.apiKey+'&location='+ latitude + ','+ longitude +'&sensor=false&radius=20000&types='+ types,
     };
     console.log(requestOptions);
     makeRequest(requestOptions, function(data) {
-        console.log(data);
         if(callback) {
-            data = dataNormalizer.normalize(JSON.parse(data).d);
+            data = dataNormalizer.normalize_google(JSON.parse(data));
             callback(data);
         }
     });

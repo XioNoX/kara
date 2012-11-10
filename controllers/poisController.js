@@ -1,11 +1,12 @@
 var api              = require('../services/api');
 var suggestionSystem = require('../services/suggestionSystem');
+var Poi = require('../models/Poi');
 
 exports.suggest = function(req, res){
     var callback = function(restaurants) {
-        res.send(restaurants);
+        res.send([{type:Poi.types["restaurants"], places:restaurants}]);
     }
-    suggestionSystem.computeSuggestions(req.body,callback);
+    suggestionSystem.computeSuggestions(req.body.latitude, req.body.longitude, callback);
 };
 
 exports.events = function(req, res){

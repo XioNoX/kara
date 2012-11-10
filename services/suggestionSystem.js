@@ -1,14 +1,25 @@
 var api        = require('../services/api');
 var poisMapper = require('../services/poisMapper');
 
-exports.computeSuggestions = function(data, callback) {
+exports.computeSuggestions = function(latitude, longitude, callback) {
     var odRestaurants     = null; //Open data restaurants
     var googleRestaurants = null; //Google Places restaurants
 
-    var openDataCallback  = function(data, normCallback) {
+    var openDataCallback  = function(data) {
         odRestaurants = data;
-        callback(data);
+        if(googleRestaurants) {
+            data = poisMapper.map(odRestaurants, googleRestaurants);
+            callback(data);
+        }
+    }
+
+    var googleDataCallback  = function(data) {
+        googleRestaurants = data;
+        if(odRestaurants) {
+            data = poisMapper.map(odRestaurants, googleRestaurants);
+            callback(data);
+        }
     }
     api.getRestaurants(openDataCallback);
-    //TODO get google places restaurants
+    api.getGooglePlaces(latitude, longitude, 'restaurant', googleDataCallback);
 }
