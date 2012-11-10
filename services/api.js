@@ -35,21 +35,18 @@ exports.getRestaurants = function(latitude,longitude,callback) {
 }
 
 exports.getEvents = function(callback) {
-    console.log({'app_key':config.eventbriteApi.apiKey, 'user_key':config.eventbriteApi.userKey});
     var eventbriteClient = Eventbrite({'app_key':config.eventbriteApi.apiKey, 'user_key':config.eventbriteApi.userKey});
 
     var params = {'city': "San Francisco", 'region': "CA"};
 
     eventbriteClient.event_search( params, function(err, data){
         console.log(err);
-        console.log(data);
         callback(data);
     });
 }
 
 var getCity = function(latitude,longitude,callback) {
-//http://nominatim.openstreetmap.org/reverse?format=json&lat=43,4834507&lon=5,381985&zoom=18&addressdetails=1
-
+    //TODO check if value is in cache
     var requestOptions = {
         host: nominatimOSMApi.host,
         port: nominatimOSMApi.port,
@@ -71,7 +68,6 @@ exports.getWeather = function(latitude,longitude,callback) {
         };
         var parser = new xml2js.Parser();
         makeRequest(requestOptions, function(data) {
-        console.log("felix",data);
         if(callback) {
             parser.parseString(data, function (err, result) { callback(result);}) }
         });
