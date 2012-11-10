@@ -1,16 +1,23 @@
 var dataNormalizer = require('./dataNormalizer');
-var http       = require('http');
-var Eventbrite = require('eventbrite');
-var config     = require('../config/config');
-var xml2js = require('xml2js');
+var http           = require('http');
+var https          = require('https');
+var Eventbrite     = require('eventbrite');
+var config         = require('../config/config');
+var xml2js         = require('xml2js');
+var GooglePlaces   = require('google-places');
+var Yelp           = require("yelp");
 
 var dataProvenceApi = {host: 'dataprovence.cloudapp.net', port: '8080' };
 var nominatimOSMApi = {host: 'nominatim.openstreetmap.org', port: '80' };
 var meteorologicApi = {host: 'api.meteorologic.net', port: '80' };
+var googleMapsApi   = {host: 'maps.googleapis.com', port: '443' };
 
 var makeRequest = function(requestParams, callback) {
     var datas = "";
-    var request = http.request(requestParams, function(response) {
+    var httptype=http;
+    if (requestParams.port=='443')
+        httptype = https;
+    var request = httptype.request(requestParams, function(response) {
         response.setEncoding('utf8');
         response.on('data', function (chunk) {
             datas += chunk;
@@ -30,6 +37,39 @@ exports.getRestaurants = function(callback) {
     };
 
     makeRequest(requestOptions, function(data) {
+        if(callback) {
+            data = dataNormalizer.normalize_open_data(JSON.parse(data).d);
+            callback(data);
+        }
+    });
+}
+
+exports.getMonuments = function(callback) {
+    var requestOptions = {
+        host: dataProvenceApi.host,
+        port: dataProvenceApi.port,
+        path: '/v1/dataprovencetourisme/importPatio22/?format=json',
+    };
+
+    makeRequest(requestOptions, function(data) {
+        if(callback) {
+            data = dataNormalizer.normalize_open_data(JSON.parse(data).d);
+            callback(data);
+        }
+    });
+}
+
+exports.getGooglePlaces = function(latitude,longitude,types,callback){
+// https://developers.google.com/places/documentation/search
+// Changer le radius si recherche a proximitée
+    var requestOptions = {
+        host: googleMapsApi.host,
+        port: googleMapsApi.port,
+        path: '/maps/api/place/nearbysearch/json?key='+config.googleMapsApi.apiKey+'&location='+ latitude + ','+ longitude +'&sensor=false&radius=20000&types='+ types,
+    };
+    console.log(requestOptions);
+    makeRequest(requestOptions, function(data) {
+        console.log(data);
         if(callback) {
             data = dataNormalizer.normalize(JSON.parse(data).d);
             callback(data);
@@ -62,6 +102,7 @@ var getCity = function(latitude,longitude,callback) {
         path: '/reverse?format=json&lat='+latitude+'&lon='+longitude+'&zoom=18&addressdetails=1'
     };
 
+              console.log(requestOptions);
     makeRequest(requestOptions, function(data) {
         if(callback) { callback(JSON.parse(data).address.city); }
     });
@@ -80,6 +121,27 @@ exports.getWeather = function(latitude,longitude,callback) {
         if(callback) {
             parser.parseString(data, function (err, result) { callback(result);}) }
         });
+    }
+    getCity(latitude,longitude,callbackCity);
+}
+
+exports.getYelp = function(latitude,longitude,types,callback) {
+
+    var callbackCity = function(city) {
+          yelp = Yelp.createClient({
+              consumer_key: config.yelpApi.consumer_key, 
+              consumer_secret: config.yelpApi.consumer_secret,
+              token: config.yelpApi.token,
+              token_secret: config.yelpApi.token_secret
+          });
+          // See http://www.yelp.com/developers/documentation/v2/search_api
+          //TODO  Check le type (arrays, no valide...)
+          yelp.search({term: types, location: city}, function(error, data) {
+              console.log(city);
+              console.log(error);
+              callback(data);
+          });
+
     }
     getCity(latitude,longitude,callbackCity);
 }
