@@ -1,4 +1,4 @@
-//var dataNormalizer = require('./dataNomalizer'),
+//var dataNormalizer = require('./dataNormalizer'),
 var    http = require('http');
 
 exports.getRestaurants = function(callback) {
