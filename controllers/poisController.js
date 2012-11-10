@@ -7,6 +7,13 @@ exports.suggest = function(req, res){
     api.getRestaurants(callback);
 };
 
+exports.events = function(req, res){ 
+    var callback = function(events) {
+        res.send(events);
+    }
+    api.getEvents(callback);
+};
+
 exports.poi = function(req, res){
     res.send('epic todo');
 };
