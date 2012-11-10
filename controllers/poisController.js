@@ -1,4 +1,4 @@
-var api = require('../services/api');
+var api              = require('../services/api');
 var suggestionSystem = require('../services/suggestionSystem');
 
 exports.suggest = function(req, res){
@@ -21,7 +21,7 @@ exports.poi = function(req, res){
     res.send('epic todo');
 };
 
-exports.weather = function(req, res){ 
+exports.weather = function(req, res){
     var callback = function(weather) {
         res.send(weather);
     }
