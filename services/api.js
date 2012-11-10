@@ -117,8 +117,11 @@ exports.getWeather = function(latitude,longitude,callback) {
         };
         var parser = new xml2js.Parser();
         makeRequest(requestOptions, function(data) {
-        if(callback) {
-            parser.parseString(data, function (err, result) { callback(result);}) }
+            if(callback) {
+                parser.parseString(data, function (err, result) { 
+                    callback(result.rss.channel['0'].item['0']['meteo:weather'][0].$);
+                }) 
+            }
         });
     }
     getCity(latitude,longitude,callbackCity);
@@ -143,4 +146,37 @@ exports.getYelp = function(latitude,longitude,types,callback) {
 
     }
     getCity(latitude,longitude,callbackCity);
+}
+
+exports.getPoi = function(id,type,callback) {
+    switch(type)
+    {
+    case 'restaurant':
+        /* blabla */
+        break;
+    case 'event':
+        /* blabla */
+        break;
+    default:
+        /* blabla */
+    }
+
+
+}
+
+
+exports.getGooglePlace = function(reference,callback){
+// https://developers.google.com/places/documentation/search
+    var requestOptions = {
+        host: googleMapsApi.host,
+        port: googleMapsApi.port,
+        path: '/maps/api/place/details/json?key='+config.googleMapsApi.apiKey+'&sensor=false&reference='+ reference,
+    };
+    console.log(requestOptions);
+    makeRequest(requestOptions, function(data) {
+        if(callback) {
+            data = dataNormalizer.normalize(JSON.parse(data).d);
+            callback(data);
+        }
+    });
 }
