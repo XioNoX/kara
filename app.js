@@ -14,8 +14,8 @@ require('./config/configure')(app);
 // Routes
 
 app.get('/', routes.index);
+app.post('/suggest', poisController.suggest);
 app.get('/poi/:id', poisController.poi);
-app.get('/suggest', poisController.suggest);
 app.get('/weather', poisController.weather);
 app.get('/events', poisController.events);
 

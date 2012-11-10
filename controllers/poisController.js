@@ -1,13 +1,14 @@
 var api = require('../services/api');
+var suggestionSystem = require('../services/suggestionSystem');
 
-exports.suggest = function(req, res){ 
+exports.suggest = function(req, res){
     var callback = function(restaurants) {
         res.send(restaurants);
     }
-    api.getRestaurants(callback);
+    suggestionSystem.computeSuggestions(req.body,callback);
 };
 
-exports.events = function(req, res){ 
+exports.events = function(req, res){
     var callback = function(events) {
         res.send(events);
     }
