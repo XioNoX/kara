@@ -4,7 +4,6 @@ var https          = require('https');
 var Eventbrite     = require('eventbrite');
 var config         = require('../config/config');
 var xml2js         = require('xml2js');
-var GooglePlaces   = require('google-places');
 var Yelp           = require("yelp");
 
 var dataProvenceApi = {host: 'dataprovence.cloudapp.net', port: '8080' };
