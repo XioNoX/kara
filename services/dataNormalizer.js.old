@@ -1,0 +1,42 @@
+
+exports.normalize = function(obj) {
+
+    var dico = {
+        raisonsociale: 'name',
+        typedecuisine: 'food',
+        numro: 'number',
+        typedevoie: 'typeOfRoad',
+        voie: 'road',
+        adresse: 'address',
+        codepostal: 'postcode',
+        ville: 'city',
+        tlphone: 'tel',
+        mail: 'mail',
+        adresseweb: 'web',
+        longitude: 'longitude',
+        latitude: 'latitude',
+    };
+
+    var normTab = [];
+    for(var rest in obj) {
+	var info = {};
+	var type = obj[rest].type;
+        /*for(var attr in obj[rest]) {
+            if(restaurant[attr]){
+		if(obj[rest]=="type")
+		    normObj.type = obj[rest][attr];
+		info[restaurant[attr]] = obj[rest][attr];
+	    }
+        }*
+	if(normObj.type)
+	    for(var i in normTab)
+		if(i.type==norm.type)
+		    i.normObj.infoTab.push(info);
+	else
+	    normTab.push(normObj);*/
+	//console.log(obj[rest]);
+	console.log(obj);
+    }
+    return normTab;
+}
+

@@ -31,7 +31,22 @@ exports.getRestaurants = function(callback) {
 
     makeRequest(requestOptions, function(data) {
         if(callback) {
-            data = dataNormalizer.normalize(JSON.parse(data).d);
+            data = dataNormalizer.normalize_open_data(JSON.parse(data).d);
+            callback(data);
+        }
+    });
+}
+
+exports.getMonuments = function(callback) {
+    var requestOptions = {
+        host: dataProvenceApi.host,
+        port: dataProvenceApi.port,
+        path: '/v1/dataprovencetourisme/importPatio22/?format=json',
+    };
+
+    makeRequest(requestOptions, function(data) {
+        if(callback) {
+            data = dataNormalizer.normalize_open_data(JSON.parse(data).d);
             callback(data);
         }
     });
