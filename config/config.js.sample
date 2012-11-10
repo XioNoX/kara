@@ -1,13 +1,23 @@
-var dpApi = {
-    host: 'dataprovence.cloudapp.net',
-    port: 8080,
-    method: 'GET'
-}
-
 var eventbriteApi = {
     apiKey : "",
     userKey : "",
 }
+var meetupApi = {
+    apiKey : "",                                                                                                                    
+}
+var googleMapsApi = {
+    apiKey : "",
+}
 
-exports.dataProvenceApi = dpApi;
-exports.eventbriteApi = dpApi;
+var yelpApi = {
+    consumer_key: "",.
+    consumer_secret: "",
+    token: "",
+    token_secret: "",
+}
+
+exports.yelpApi = yelpApi;
+exports.googleMapsApi = googleMapsApi;
+exports.eventbriteApi = eventbriteApi;
+exports.meetupApi = meetupApi;
+
