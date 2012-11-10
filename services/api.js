@@ -1,6 +1,7 @@
 //var dataNormalizer = require('./dataNomalizer'),
-var http = require('http');
-var config = require('../config/config');
+var http       = require('http');
+var Eventbrite = require('eventbrite');
+var config     = require('../config/config');
 
 var makeRequest = function(requestParams, callback) {
     var datas = "";
@@ -30,5 +31,14 @@ exports.getRestaurants = function(callback) {
 }
 
 exports.getEvents = function(callback) {
+    console.log({'app_key':config.eventbriteApi.apiKey, 'user_key':config.eventbriteApi.userKey});
+    var eventbriteClient = Eventbrite({'app_key':config.eventbriteApi.apiKey, 'user_key':config.eventbriteApi.userKey});
 
+    var params = {'city': "San Francisco", 'region': "CA"};
+
+    eventbriteClient.event_search( params, function(err, data){
+        console.log(err);
+        console.log(data);
+        callback(data);
+    });
 }
