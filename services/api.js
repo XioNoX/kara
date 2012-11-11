@@ -131,7 +131,7 @@ exports.getPois = function(type, latitude, longitude, callback) {
             getOdataMuseums(filterDatas);
             break;
         case Poi.types["hotels"]:
-            getOdataHotels(callback);
+            getOdataHotels(filterDatas);
             break;
         case Poi.types["events"]:
             getEvents(latitude, longitude, null, filterDatas);
