@@ -122,7 +122,7 @@ exports.getPois = function(type, latitude, longitude, callback) {
     switch(type) {
         case Poi.types["restaurants"]:
             //getRestaurants(filterDatas);
-            getGooglePlaces(latitude,longitude,'restaurants',callback);
+            getGooglePlaces(latitude,longitude,'restaurant',callback);
             break;
         case Poi.types["monuments"]:
             getMonuments(filterDatas);
