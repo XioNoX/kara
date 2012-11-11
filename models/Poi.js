@@ -5,13 +5,13 @@ var Poi = function(poiJson) {
 };
 
 Poi.types = {
-    "restaurants":  0,
-    "museums":      1,
-    "park":         2,
-    "cinemas":      3,
-    "concerts":     4,
-    "free":         5,
-    "events":        6,
+    "restaurants":  '0',
+    "museums":      '1',
+    "park":         '2',
+    "cinemas":      '3',
+    "concerts":     '4',
+    "free":         '5',
+    "events":       '6',
 }
 
 Poi.find = function(id) {
