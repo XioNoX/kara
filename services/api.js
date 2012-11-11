@@ -15,6 +15,7 @@ var googleMapsApi   = {host: 'maps.googleapis.com', port: '443' };
 var makeRequest = function(requestParams, callback) {
     var datas = "";
     var httptype=http;
+    console.log('Api request made to : \n\n', requestParams);
     if (requestParams.port=='443')
         httptype = https;
     var request = httptype.request(requestParams, function(response) {
