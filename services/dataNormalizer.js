@@ -69,6 +69,7 @@ exports.normalize_google = function(obj) {
 
 
 exports.normalize_eventbrite = function(obj) {
+    console.log(obj);
     var dico = {
 	id: 'id',
 	title: 'name',

@@ -98,8 +98,12 @@ var getEvents = function(latitude,longitude,date,callback) {
             var eventbriteClient = Eventbrite({'app_key':config.eventbriteApi.apiKey, 'user_key':config.eventbriteApi.userKey});
             var params = {'city': city, 'country': "FR", date: date};
             eventbriteClient.event_search( params, function(err, data){
-                console.log(err);
+                if(err) { 
+                    console.log(err);
+                    return callback(null);
+                }
                 console.log(data);
+                data = dataNormalizer.normalize_eventbrite(data);
                 callback(data);
             });
         };
@@ -149,7 +153,7 @@ exports.getPois = function(type, latitude, longitude, callback) {
             getOdataHotels(filterDatas);
             break;
         case Poi.types["events"]:
-            getEvents(latitude, longitude, null, filterDatas);
+            getEvents(latitude, longitude, null, callback);
             break;
         case Poi.types["parks"]:
             getOdataParks(filterDatas);
