@@ -1,25 +1,23 @@
 var api              = require('../services/api');
 var suggestionSystem = require('../services/suggestionSystem');
-var Poi = require('../models/Poi');
+var Poi              = require('../models/Poi');
 
 exports.suggest = function(req, res){
-    var callback = function(restaurants) {
-        res.send([{type:Poi.types["restaurants"], places:restaurants}]);
+    var callback = function(pois) {
+        res.send(pois);
     }
-    suggestionSystem.computeSuggestions(req.body.latitude, req.body.longitude, callback);
-};
 
-exports.events = function(req, res){
-    var callback = function(events) {
-        res.send(events);
-    }
-    if(!((req.query.longitude)&&(req.query.latitude)))
+    if(!((req.body.longitude)&&(req.body.latitude)))
         return res.end();
-    api.getEvents(req.query.latitude,req.query.longitude,req.query.date,callback);
+
+    suggestionSystem.computeSuggestions(req.body.latitude, req.body.longitude, req.body.types, callback);
 };
 
 exports.poi = function(req, res){
-    res.send(getPoi);
+    var callback = function(poi) {
+        res.send(poi);
+    }
+    api.getPoi(req.params.id, callback);
 };
 
 exports.weather = function(req, res){

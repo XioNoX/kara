@@ -5,6 +5,7 @@ var Eventbrite     = require('eventbrite');
 var config         = require('../config/config');
 var xml2js         = require('xml2js');
 var Yelp           = require("yelp");
+var Poi            = require("../models/Poi");
 
 var dataProvenceApi = {host: 'dataprovence.cloudapp.net', port: '8080' };
 var nominatimOSMApi = {host: 'nominatim.openstreetmap.org', port: '80' };
@@ -28,7 +29,7 @@ var makeRequest = function(requestParams, callback) {
     request.end();
 }
 
-exports.getRestaurants = function(callback) {
+var getRestaurants = function(callback) {
     var requestOptions = {
         host: dataProvenceApi.host,
         port: dataProvenceApi.port,
@@ -41,6 +42,23 @@ exports.getRestaurants = function(callback) {
             callback(data);
         }
     });
+}
+
+var getEvents = function(latitude,longitude,date,callback) {
+    if(!date)
+    var date="Today";
+    var callbackCity = function(city) {
+        if(callback) {
+            var eventbriteClient = Eventbrite({'app_key':config.eventbriteApi.apiKey, 'user_key':config.eventbriteApi.userKey});
+            var params = {'city': city, 'country': "FR", date: date};
+            eventbriteClient.event_search( params, function(err, data){
+                console.log(err);
+                console.log(data);
+                callback(data);
+            });
+        };
+    }
+    getCity(latitude,longitude,callbackCity);
 }
 
 exports.getMonuments = function(callback) {
@@ -58,6 +76,18 @@ exports.getMonuments = function(callback) {
     });
 }
 
+exports.getPois = function(type, latitude, longitude, callback) {
+    switch(type) {
+        case Poi.types["restaurants"]:
+            getRestaurants(callback);
+            break;
+        case Poi.types["events"]:
+            getEvents(latitude, longitude, null, callback);
+            break;
+    }
+}
+
+
 exports.getGooglePlaces = function(latitude,longitude,types,callback){
 // https://developers.google.com/places/documentation/search
 // Changer le radius si recherche a proximitée
@@ -73,22 +103,6 @@ exports.getGooglePlaces = function(latitude,longitude,types,callback){
     });
 }
 
-exports.getEvents = function(latitude,longitude,date,callback) {
-    if(!date)
-    var date="Today";
-    var callbackCity = function(city) {
-        if(callback) {
-            var eventbriteClient = Eventbrite({'app_key':config.eventbriteApi.apiKey, 'user_key':config.eventbriteApi.userKey});
-            var params = {'city': city, 'country': "FR", date: date};
-            eventbriteClient.event_search( params, function(err, data){
-                console.log(err);
-                console.log(data);
-                callback(data);
-            });
-        };
-    }
-    getCity(latitude,longitude,callbackCity);
-}
 
 var getCity = function(latitude,longitude,callback) {
     //TODO check if value is in cache
@@ -145,22 +159,9 @@ exports.getYelp = function(latitude,longitude,types,callback) {
     getCity(latitude,longitude,callbackCity);
 }
 
-exports.getPoi = function(id,type,callback) {
-    switch(type)
-    {
-    case 'restaurant':
-        /* blabla */
-        break;
-    case 'event':
-        /* blabla */
-        break;
-    default:
-        /* blabla */
-    }
-
-
+exports.getPoi = function(id,callback) {
+    Poi.find(id);
 }
-
 
 exports.getGooglePlace = function(reference,callback){
 // https://developers.google.com/places/documentation/search
