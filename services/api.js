@@ -77,7 +77,7 @@ var getEvents = function(latitude,longitude,date,callback) {
     getCity(latitude,longitude,callbackCity);
 }
 
-exports.getMonuments = function(callback) {
+var getMonuments = function(callback) {
     var requestOptions = {
         host: dataProvenceApi.host,
         port: dataProvenceApi.port,
@@ -93,19 +93,30 @@ exports.getMonuments = function(callback) {
 }
 
 exports.getPois = function(type, latitude, longitude, callback) {
+    var filterDatas = function(data) {
+        if(!data) return callback([]);
+        var newArray = [];
+        for(var i=0; i<5; i++) {
+            if(data.length == 0) continue;
+            var randIndex = Math.floor(Math.random()*data.length);
+            newArray.push(data[randIndex]);
+            data.splice(randIndex, 1);
+        }
+        callback(newArray);
+    };
     switch(type) {
         case Poi.types["restaurants"]:
-            //getRestaurants(callback);
+            //getRestaurants(filterDatas);
             getGooglePlaces(latitude,longitude,'restaurants',callback);
             break;
         case Poi.types["monuments"]:
-            getMonuments(callback);
+            getMonuments(filterDatas);
             break;
         case Poi.types["museums"]:
-            getOdataMuseums(callback);
+            getOdataMuseums(filterDatas);
             break;
         case Poi.types["events"]:
-            getEvents(latitude, longitude, null, callback);
+            getEvents(latitude, longitude, null, filterDatas);
             break;
     }
 }
