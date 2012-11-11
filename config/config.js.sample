@@ -1,23 +1,21 @@
-var eventbriteApi = {
-    apiKey : "",
-    userKey : "",
-}
-var meetupApi = {
-    apiKey : "",                                                                                                                    
-}
-var googleMapsApi = {
-    apiKey : "",
-}
 
-var yelpApi = {
-    consumer_key: "",.
-    consumer_secret: "",
-    token: "",
-    token_secret: "",
-}
-
-exports.yelpApi = yelpApi;
-exports.googleMapsApi = googleMapsApi;
-exports.eventbriteApi = eventbriteApi;
-exports.meetupApi = meetupApi;
-
+ var eventbriteApi = {
+     apiKey : "TIKPJLILW2AMH4VJQ4",
+     userKey : "135023877843581230634",
+ }
+ var meetupApi = {
+     apiKey : "b604b522176c4e13325b4a5d103156",
+ }
+ var googleMapsApi = {
+     apiKey : "AIzaSyBROisTDCwnB5fHMa9y4YqqdLA8KxPW-ZA",
+ }
+ var yelpApi = {
+       consumer_key: "8N0oOH0ZI3rK0pZgNkoa1A",.
+       consumer_secret: "XIz9MYVWP-Kyx1ab4s6pB_k6OIo",
+       token: "sCBzoKc1UPFF4bwpMoXsHL7d0ZFdhADu",
+       token_secret: "DxB1VtYHrzh3wcWbCfwlrubfr4I",
+ }
+ exports.eventbriteApi = eventbriteApi;
+ exports.meetupApi = meetupApi;
+ exports.googleMapsApi = googleMapsApi;
+ exports.yelpApi = yelpApi;
