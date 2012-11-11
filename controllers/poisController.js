@@ -7,6 +7,7 @@ exports.suggest = function(req, res){
         res.send(pois);
     }
 
+    console.log(req.body);
     if(!((req.body.longitude)&&(req.body.latitude)))
         return res.end();
 

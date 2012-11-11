@@ -5,14 +5,14 @@ var Poi = function(poiJson) {
 };
 
 Poi.types = {
-    "restaurants":  0,
-    "museums":      1,
-    "park":         2,
-    "cinemas":      3,
-    "concerts":     4,
-    "free":         5,
-    "events":       6,
-    "monuments":    7,
+    "restaurants": '0',
+    "museums": '1',
+    "park": '2',
+    "cinemas": '3',
+    "concerts": '4',
+    "free": '5',
+    "events": '6',
+    "monuments": '7',
 }
 
 Poi.find = function(id) {
@@ -20,11 +20,11 @@ Poi.find = function(id) {
 }
 
 Poi.prototype = {
-    poiJson : null,
+poiJson : null,
 
-    save: function() {
-        if(!this.poiJson) return false;
-    }
+          save: function() {
+              if(!this.poiJson) return false;
+          }
 };
 
 module.exports = Poi;

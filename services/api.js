@@ -15,6 +15,7 @@ var googleMapsApi   = {host: 'maps.googleapis.com', port: '443' };
 var makeRequest = function(requestParams, callback) {
     var datas = "";
     var httptype=http;
+    console.log('Api request made to : \n\n', requestParams);
     if (requestParams.port=='443')
         httptype = https;
     var request = httptype.request(requestParams, function(response) {
@@ -44,7 +45,7 @@ var getRestaurants = function(callback) {
     });
 }
 
-var getOdataMusees = function(callback) {
+var getOdataMuseums = function(callback) {
     var requestOptions = {
         host: dataProvenceApi.host,
         port: dataProvenceApi.port,
@@ -99,8 +100,8 @@ exports.getPois = function(type, latitude, longitude, callback) {
         case Poi.types["monuments"]:
             getMonuments(callback);
             break;
-        case Poi.types["musees"]:
-            getOdataMusees(callback);
+        case Poi.types["museums"]:
+            getOdataMuseums(callback);
             break;
         case Poi.types["events"]:
             getEvents(latitude, longitude, null, callback);
