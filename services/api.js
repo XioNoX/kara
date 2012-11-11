@@ -121,8 +121,8 @@ exports.getPois = function(type, latitude, longitude, callback) {
     };
     switch(type) {
         case Poi.types["restaurants"]:
-            //getRestaurants(filterDatas);
-            getGooglePlaces(latitude,longitude,'restaurant',callback);
+            getRestaurants(filterDatas);
+            //getGooglePlaces(latitude,longitude,'restaurant',callback);
             break;
         case Poi.types["monuments"]:
             getMonuments(filterDatas);
@@ -130,9 +130,9 @@ exports.getPois = function(type, latitude, longitude, callback) {
         case Poi.types["museums"]:
             getOdataMuseums(filterDatas);
             break;
-	case Poi.types["hotels"]:
-	    getOdataHotels(callback);
-	    break;
+        case Poi.types["hotels"]:
+            getOdataHotels(callback);
+            break;
         case Poi.types["events"]:
             getEvents(latitude, longitude, null, filterDatas);
             break;
