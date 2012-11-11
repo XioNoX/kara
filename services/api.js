@@ -154,6 +154,8 @@ exports.getPois = function(type, latitude, longitude, callback) {
         case Poi.types["parks"]:
             getOdataParks(filterDatas);
             break;
+        default:
+            filterDatas(null);
     }
 }
 
