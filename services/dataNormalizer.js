@@ -1,6 +1,7 @@
 
 exports.normalize_open_data = function(obj) {
     var dico = {
+	entityid: 'id',
         raisonsociale: 'name',
         raison_sociale: 'name',
         typedecuisine: 'type',
@@ -36,11 +37,12 @@ exports.normalize_open_data = function(obj) {
 
 exports.normalize_google = function(obj) {
     var dico = {
-    name: 'name',
-    vicinity: 'address',
-    icon : 'icon',
-    rating : 'rating',
-    // lat, lng and types "à la mano"
+	id: 'id',
+	name: 'name',
+	vicinity: 'address',
+	icon : 'icon',
+	rating : 'rating',
+	// lat, lng and types "à la mano"
     };
 
     var normTab = [];
@@ -60,6 +62,38 @@ exports.normalize_google = function(obj) {
         }
     }
         normTab.push(normObj);
+    }
+    return normTab;
+}
+
+
+exports.normalize_eventbrite = function(obj) {
+    var dico = {
+	id: 'id',
+	title: 'name',
+	category: 'type',
+	start_date: 'date',
+	url: 'web',
+	tags: 'desc',
+	// add ticket information (free ? price ?)
+    };
+
+    var normTab = [];
+    for(var singleEvent in obj.events) {
+	for(var attr in obj.events[singleEvent]) {
+	    var normObj = {};
+	    if(attr=="event"){
+		for(var key in obj.events[singleEvent][attr]) {
+		    if(dico[key])
+			normObj[key]=obj.events[singleEvent][attr][key];
+		    if(key=="venue" && obj.events[singleEvent][attr].venue.latitude){
+			normObj.latitude=obj.events[singleEvent][attr].venue.latitude;
+			normObj.longitude=obj.events[singleEvent][attr].venue.longitude;
+		    }
+		}
+        normTab.push(normObj);
+	    }	
+	}
     }
     return normTab;
 }
