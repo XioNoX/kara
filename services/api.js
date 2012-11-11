@@ -77,7 +77,7 @@ var getEvents = function(latitude,longitude,date,callback) {
     getCity(latitude,longitude,callbackCity);
 }
 
-exports.getMonuments = function(callback) {
+var getMonuments = function(callback) {
     var requestOptions = {
         host: dataProvenceApi.host,
         port: dataProvenceApi.port,
