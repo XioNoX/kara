@@ -95,7 +95,8 @@ exports.getMonuments = function(callback) {
 exports.getPois = function(type, latitude, longitude, callback) {
     switch(type) {
         case Poi.types["restaurants"]:
-            getRestaurants(callback);
+            //getRestaurants(callback);
+            getGooglePlaces(latitude,longitude,'restaurants',callback);
             break;
         case Poi.types["monuments"]:
             getMonuments(callback);
@@ -110,7 +111,7 @@ exports.getPois = function(type, latitude, longitude, callback) {
 }
 
 
-exports.getGooglePlaces = function(latitude,longitude,types,callback){
+var getGooglePlaces = function(latitude,longitude,types,callback){
 // https://developers.google.com/places/documentation/search
 // Changer le radius si recherche a proximitée
     var requestOptions = {
