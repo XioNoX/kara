@@ -44,6 +44,21 @@ var getRestaurants = function(callback) {
     });
 }
 
+var getOdataMusees = function(callback) {
+    var requestOptions = {
+        host: dataProvenceApi.host,
+        port: dataProvenceApi.port,
+        path: '/v1/dataprovencetourisme/importPatio23/?format=json',
+    };
+
+    makeRequest(requestOptions, function(data) {
+        if(callback) {
+            data = dataNormalizer.normalize_open_data(JSON.parse(data).d);
+            callback(data);
+        }
+    });
+}
+
 var getEvents = function(latitude,longitude,date,callback) {
     if(!date)
     var date="Today";
@@ -80,6 +95,12 @@ exports.getPois = function(type, latitude, longitude, callback) {
     switch(type) {
         case Poi.types["restaurants"]:
             getRestaurants(callback);
+            break;
+        case Poi.types["monuments"]:
+            getMonuments(callback);
+            break;
+        case Poi.types["musees"]:
+            getOdataMusees(callback);
             break;
         case Poi.types["events"]:
             getEvents(latitude, longitude, null, callback);
