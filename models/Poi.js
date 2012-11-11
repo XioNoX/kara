@@ -14,6 +14,7 @@ Poi.types = {
     "events": '6',
     "monuments": '7',
     "hotels": '8',
+    "parks": '9',
 }
 
 Poi.find = function(id) {
