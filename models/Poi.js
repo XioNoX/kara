@@ -7,14 +7,13 @@ var Poi = function(poiJson) {
 Poi.types = {
     "restaurants": '0',
     "museums": '1',
-    "park": '2',
+    "parks": '2',
     "cinemas": '3',
     "concerts": '4',
     "free": '5',
     "events": '6',
     "monuments": '7',
     "hotels": '8',
-    "parks": '9',
 }
 
 Poi.find = function(id) {
