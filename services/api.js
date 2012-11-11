@@ -92,7 +92,7 @@ var getEvents = function(latitude,longitude,date,callback) {
     getCity(latitude,longitude,callbackCity);
 }
 
-exports.getMonuments = function(callback) {
+var getMonuments = function(callback) {
     var requestOptions = {
         host: dataProvenceApi.host,
         port: dataProvenceApi.port,
@@ -124,10 +124,10 @@ exports.getPois = function(type, latitude, longitude, callback) {
             getRestaurants(filterDatas);
             break;
         case Poi.types["monuments"]:
-            getMonuments(callback);
+            getMonuments(filterDatas);
             break;
         case Poi.types["museums"]:
-            getOdataMuseums(callback);
+            getOdataMuseums(filterDatas);
             break;
 	case Poi.types["hotels"]:
 	    getOdataHotels(callback);
