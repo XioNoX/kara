@@ -9,7 +9,7 @@ exports.computeSuggestions = function(latitude, longitude, types, callback) {
         if(!pois) {
             poisTypes.push({type:type, places:[]});
         } else {
-            poisTypes.push({type:type, places:[pois]});
+            poisTypes.push({type:type, places:pois});
         }
         nbTypes++
         //if we have checked all types
