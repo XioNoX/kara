@@ -28,7 +28,6 @@ exports.normalize_open_data = function(obj) {
     for(var rest in obj) {
         var normObj = {};
         for(var attr in obj[rest]) {
-	    console.log(attr);
             if(dico[attr])
                 normObj[dico[attr]] = obj[rest][attr];
         }
