@@ -7,7 +7,7 @@ exports.normalize_open_data = function(obj) {
         typedecuisine: 'type',
         sous_type: 'type',
         numro: 'number',
-    numero: 'number',
+	numero: 'number',
         typedevoie: 'typeOfRoad',
         type_de_voie: 'typeOfRoad',
         voie: 'road',
@@ -21,6 +21,7 @@ exports.normalize_open_data = function(obj) {
         adresse_web : 'web',
         longitude : 'longitude',
         latitude : 'latitude',
+	classement: 'etoile',
     };
 
     var normTab = [];

@@ -60,6 +60,21 @@ var getOdataMuseums = function(callback) {
     });
 }
 
+var getOdataHotels = function(callback) {
+    var requestOptions = {
+        host: dataProvenceApi.host,
+        port: dataProvenceApi.port,
+        path: '/v1/dataprovencetourisme/Hotels/?format=json',
+    };
+
+    makeRequest(requestOptions, function(data) {
+        if(callback) {
+            data = dataNormalizer.normalize_open_data(JSON.parse(data).d);
+            callback(data);
+        }
+    });
+}
+
 var getEvents = function(latitude,longitude,date,callback) {
     if(!date)
     var date="Today";
@@ -115,6 +130,9 @@ exports.getPois = function(type, latitude, longitude, callback) {
         case Poi.types["museums"]:
             getOdataMuseums(filterDatas);
             break;
+	case Poi.types["hotels"]:
+	    getOdataHotels(callback);
+	    break;
         case Poi.types["events"]:
             getEvents(latitude, longitude, null, filterDatas);
             break;
